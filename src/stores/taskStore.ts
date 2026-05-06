@@ -55,5 +55,26 @@ export const useTaskStore = defineStore('task', ()=> {
             tasks.value.unshift(newTask)
             return newTask
         }
-    
+
+    const updateTask = async(id: string, updates: Partial<Task>) => {
+        const index = tasks.value.findIndex(t => t.id === id)
+        if(index !== -1){
+            tasks.value[index] = {
+                ...tasks.value[index],
+                ...updates,
+                updatedAt: new Date()
+            }
+        }
+        return tasks.value[index]
+    }
+
+    const deleteTask = async(id: string) => {
+        const idx = tasks.value.findIndex(t => t.id === id)
+        if(idx !== -1){
+            const deletedTask = tasks.value[idx]
+            tasks.value.splice(idx,1)
+            
+            return deleteTask
+        }
+    }
 })
